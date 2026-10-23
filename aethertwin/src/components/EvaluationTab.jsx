@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   Cpu, Radio, LayoutDashboard, Network, FileText, Printer, X, Download, Award, Layers, GitBranch, CheckCircle2, Zap, ShieldCheck,
 } from 'lucide-react';
-import { computeIndices, computeOrganStats, generateClinicalNotes } from '../data/patients';
+import { computeIndices, computeOrganStats, generateClinicalNotes, REVIEWER_EXAMPLES } from '../data/patients';
 
 export default function EvaluationTab({ patient, settings, history, lastSnapshot }) {
   const [reportOpen, setReportOpen] = useState(false);
@@ -47,6 +47,27 @@ export default function EvaluationTab({ patient, settings, history, lastSnapshot
           </div>
         ))}
       </div>
+
+      <section className="glass p-5">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200">Sample reviewers</h3>
+            <p className="mt-1 text-[11px] text-slate-500">Demo personas for the review panel. They are not patient profiles or user accounts.</p>
+          </div>
+          <span className="font-mono text-[9px] uppercase tracking-wider text-slate-600">Reviewer examples</span>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {REVIEWER_EXAMPLES.map((reviewer, index) => (
+            <div key={reviewer.name} className="flex items-center gap-3 rounded-xl border border-white/10 bg-slate-950/40 p-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-cyan-400/20 bg-cyan-400/10 font-mono text-[10px] font-bold text-cyan-300">R{index + 1}</span>
+              <div className="min-w-0">
+                <p className="truncate text-xs font-semibold text-slate-200">{reviewer.name}</p>
+                <p className="text-[10px] text-slate-500">{reviewer.role}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Architecture diagram */}
       <div className="glass p-5">
@@ -174,9 +195,9 @@ export default function EvaluationTab({ patient, settings, history, lastSnapshot
             {/* patient summary */}
             <div className="mt-4 grid grid-cols-2 gap-4 text-[13px] sm:grid-cols-4">
               <div><p className="text-[10px] font-bold uppercase text-slate-400">Patient</p><p className="font-semibold">{patient.name}</p></div>
-              <div><p className="text-[10px] font-bold uppercase text-slate-400">Age / Sex</p><p className="font-semibold">{patient.age}y · {patient.sex}</p></div>
-              <div><p className="text-[10px] font-bold uppercase text-slate-400">Resting HR</p><p className="font-semibold">{patient.vitals.restingHR} bpm · BP {patient.vitals.systolic}/{patient.vitals.diastolic}</p></div>
-              <div><p className="text-[10px] font-bold uppercase text-slate-400">HbA1c / BMI</p><p className="font-semibold">{patient.vitals.hba1c}% · {patient.vitals.bmi}</p></div>
+              <div><p className="text-[10px] font-bold uppercase text-slate-400">Age / Sex</p><p className="font-semibold">{patient.age ?? 'Not entered'}{patient.age != null ? 'y' : ''} · {patient.sex || 'Not entered'}</p></div>
+              <div><p className="text-[10px] font-bold uppercase text-slate-400">Resting HR</p><p className="font-semibold">{patient.manualData?.vitals?.restingHR ?? 'Not entered'}{patient.manualData?.vitals?.restingHR != null ? ' bpm' : ''} · BP {patient.manualData?.vitals?.systolic ?? '—'}/{patient.manualData?.vitals?.diastolic ?? '—'}</p></div>
+              <div><p className="text-[10px] font-bold uppercase text-slate-400">HbA1c / BMI</p><p className="font-semibold">{patient.manualData?.vitals?.hba1c ?? '—'}{patient.manualData?.vitals?.hba1c != null ? '%' : ''} · {patient.manualData?.vitals?.bmi ?? '—'}</p></div>
             </div>
             <p className="mt-2 text-[12px] text-slate-600"><b>Active conditions:</b> {patient.conditions.join(' · ')}</p>
 

@@ -2,79 +2,41 @@
 // AetherTwin Health — Patient presets & baseline physiology
 // ============================================================
 
-export const PATIENTS = [
-  {
-    id: 'rahul',
-    name: 'Rahul Sharma',
-    age: 38,
-    sex: 'Male',
-    initials: 'RS',
-    tagline: 'Type 2 Diabetes · Executive burnout pattern',
-    conditions: ['Type 2 Diabetes (HbA1c 7.4%)', 'Chronic work stress / cortisol spikes', 'Borderline NAFLD'],
-    accent: '#f59e0b',
-    avatarGradient: 'from-amber-500 to-orange-600',
-    vitals: { restingHR: 82, systolic: 134, diastolic: 86, bmi: 27.8, hba1c: 7.4 },
-    baseline: { sleep: 5.5, carbs: 240, activity: 15, stress: 8 },
-    profile: {
-      insulinResistance: 0.72, // 0..1
-      betaCellFunction: 0.58,  // 0..1 (lower = slower glucose clearance)
-      cardiacBaseline: 0.55,   // baseline cardiac strain component
-      cortisolBaseline: 0.62,  // HPA-axis hyperactivity
-      renalLoad: 0.42,
-      hepaticFat: 0.66,
-      neuroVulnerability: 0.58,
-      recoveryRate: 0.55,
-    },
-    organBaselines: { brain: 64, heart: 58, pancreas: 41, liver: 49, kidneys: 68 },
+export const MY_TWIN_ID = 'my-twin';
+
+// A neutral starter model keeps the simulator usable before the signed-in user
+// enters data. These are simulation defaults, not a person's measurements.
+export const PERSONAL_TWIN_BASE = {
+  id: MY_TWIN_ID,
+  name: 'My Twin',
+  age: null,
+  sex: '',
+  initials: 'MT',
+  tagline: 'Personal health twin',
+  conditions: [],
+  accent: '#22d3ee',
+  avatarGradient: 'from-cyan-500 to-emerald-500',
+  hasMeasurements: false,
+  manualData: {},
+  vitals: { restingHR: 70, systolic: 120, diastolic: 80, bmi: 24, hba1c: 5.5 },
+  baseline: { sleep: 7, carbs: 180, activity: 30, stress: 4 },
+  profile: {
+    insulinResistance: 0.35,
+    betaCellFunction: 0.8,
+    cardiacBaseline: 0.35,
+    cortisolBaseline: 0.4,
+    renalLoad: 0.35,
+    hepaticFat: 0.3,
+    neuroVulnerability: 0.35,
+    recoveryRate: 0.65,
   },
-  {
-    id: 'elena',
-    name: 'Elena Rostova',
-    age: 29,
-    sex: 'Female',
-    initials: 'ER',
-    tagline: 'Endurance athlete · Overtraining surveillance',
-    conditions: ['Overtraining syndrome risk', 'Exercise-induced bradycardia (physiological)', 'Menstrual-cycle HRV variance'],
-    accent: '#10b981',
-    avatarGradient: 'from-emerald-500 to-teal-600',
-    vitals: { restingHR: 48, systolic: 112, diastolic: 68, bmi: 21.2, hba1c: 5.1 },
-    baseline: { sleep: 7.5, carbs: 180, activity: 95, stress: 4 },
-    profile: {
-      insulinResistance: 0.14,
-      betaCellFunction: 0.94,
-      cardiacBaseline: 0.22,
-      cortisolBaseline: 0.34,
-      renalLoad: 0.18,
-      hepaticFat: 0.12,
-      neuroVulnerability: 0.28,
-      recoveryRate: 0.88,
-    },
-    organBaselines: { brain: 88, heart: 90, pancreas: 92, liver: 91, kidneys: 93 },
-  },
-  {
-    id: 'marcus',
-    name: 'Marcus Vance',
-    age: 62,
-    sex: 'Male',
-    initials: 'MV',
-    tagline: 'Hypertensive · Multi-organ risk profile',
-    conditions: ['Stage 2 Hypertension', 'CKD Stage G2 (eGFR 68)', 'Elevated 10-yr ASCVD risk (18.6%)'],
-    accent: '#22d3ee',
-    avatarGradient: 'from-cyan-500 to-blue-600',
-    vitals: { restingHR: 74, systolic: 158, diastolic: 96, bmi: 29.4, hba1c: 6.0 },
-    baseline: { sleep: 6, carbs: 200, activity: 20, stress: 6 },
-    profile: {
-      insulinResistance: 0.48,
-      betaCellFunction: 0.7,
-      cardiacBaseline: 0.74,
-      cortisolBaseline: 0.48,
-      renalLoad: 0.68,
-      hepaticFat: 0.44,
-      neuroVulnerability: 0.52,
-      recoveryRate: 0.4,
-    },
-    organBaselines: { brain: 57, heart: 44, pancreas: 66, liver: 63, kidneys: 40 },
-  },
+  organBaselines: { brain: 75, heart: 75, pancreas: 75, liver: 75, kidneys: 75 },
+};
+
+export const REVIEWER_EXAMPLES = [
+  { name: 'Rahul Sharma', role: 'Sample reviewer persona 1' },
+  { name: 'Elena Rostova', role: 'Sample reviewer persona 2' },
+  { name: 'Marcus Vance', role: 'Sample reviewer persona 3' },
 ];
 
 export const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));

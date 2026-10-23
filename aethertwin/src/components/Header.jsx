@@ -1,11 +1,9 @@
-import { Activity, ShieldCheck, Radio } from 'lucide-react';
-import { PATIENTS } from '../data/patients';
+import { Activity, ShieldCheck, Radio, LogOut } from 'lucide-react';
 
 // ============================================================
-// Persistent top navigation + patient profile switcher
+// Persistent navigation for the signed-in user's personal twin
 // ============================================================
-export default function Header({ patientId, onPatientChange, liveHz, activeTab, onTabChange, TABS }) {
-  const patient = PATIENTS.find((p) => p.id === patientId);
+export default function Header({ patient, user, onSignOut, liveHz, activeTab, onTabChange, TABS }) {
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
@@ -36,35 +34,14 @@ export default function Header({ patientId, onPatientChange, liveHz, activeTab, 
             </div>
             <div className="hidden items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1.5 sm:flex">
               <ShieldCheck className="h-3.5 w-3.5 text-cyan-400" />
-              <span className="font-mono text-[11px] font-semibold text-cyan-300">HIPAA-SIM ENCLAVE</span>
+              <span className="font-mono text-[11px] font-semibold text-cyan-300">LOCAL-ONLY DEMO DATA</span>
             </div>
 
-            {/* Patient profile switcher */}
-            <div className="flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/70 p-1 pl-2">
-              {PATIENTS.map((p) => {
-                const active = p.id === patientId;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => onPatientChange(p.id)}
-                    title={`${p.name} — ${p.tagline}`}
-                    className={`group relative grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br text-xs font-bold transition-all duration-300 ${p.avatarGradient} ${
-                      active
-                        ? 'scale-110 text-white ring-2 ring-offset-2 ring-offset-slate-900'
-                        : 'text-white/70 opacity-60 hover:opacity-100'
-                    }`}
-                    style={active ? { boxShadow: `0 0 16px ${p.accent}88`, '--tw-ring-color': p.accent } : undefined}
-                  >
-                    {p.initials}
-                  </button>
-                );
-              })}
-              <div className="mr-1 hidden select-none items-center lg:flex">
-                <span className="ml-2 text-sm font-semibold text-slate-200">{patient?.name}</span>
-                <span className="ml-2 font-mono text-[11px] text-slate-500">
-                  {patient?.age}y · {patient?.sex}
-                </span>
-              </div>
+            <div className="hidden items-center gap-2 lg:flex">
+              <span className="max-w-40 truncate text-xs text-slate-400">{patient?.name || user?.name}</span>
+              <button onClick={onSignOut} title="Sign out" className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-slate-400 transition hover:border-rose-400/30 hover:text-rose-300">
+                <LogOut className="h-4 w-4" />
+              </button>
             </div>
           </div>
         </div>
@@ -91,6 +68,10 @@ export default function Header({ patientId, onPatientChange, liveHz, activeTab, 
             );
           })}
         </nav>
+        <div className="flex items-center justify-end gap-2 pb-2 lg:hidden">
+          <span className="max-w-40 truncate text-[11px] text-slate-500">Signed in as {user?.name}</span>
+          <button onClick={onSignOut} className="flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-semibold text-slate-400 hover:text-rose-300"><LogOut className="h-3.5 w-3.5" /> Sign out</button>
+        </div>
       </div>
     </header>
   );

@@ -163,7 +163,8 @@ export default function OrgansTab({ patient, settings }) {
   const [selected, setSelected] = useState('pancreas');
   const sel = organs[selected];
   const Icon = ORGAN_ICONS[selected];
-  const bioAge = Number((patient.age + sel.bioAgeDelta).toFixed(1));
+  const hasChronologicalAge = Number.isFinite(patient.age) && patient.age > 0;
+  const bioAge = hasChronologicalAge ? Number((patient.age + sel.bioAgeDelta).toFixed(1)) : null;
 
   return (
     <div className="animate-fadeUp grid grid-cols-1 gap-5 lg:grid-cols-[minmax(320px,460px)_1fr]">
@@ -194,7 +195,7 @@ export default function OrgansTab({ patient, settings }) {
               </span>
               <div>
                 <h4 className="text-base font-extrabold text-white">{sel.name} — Diagnostic Card</h4>
-                <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">{sel.subtitle} · twin {patient.id.toUpperCase()}-{String(patient.age).padStart(2, '0')}</p>
+                <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">{sel.subtitle} · personal twin</p>
               </div>
             </div>
             <ChevronRight className="h-5 w-5 text-slate-600" />
@@ -221,8 +222,7 @@ export default function OrgansTab({ patient, settings }) {
                   </span>
                 </div>
                 <p className="mt-1 text-[12px] text-slate-400">
-                  {sel.name} behaves like a <b className="text-white">{bioAge}-year-old</b> tissue vs chronological age{' '}
-                  <b className="text-white">{patient.age}y</b> — {sel.bioAgeDelta > 0 ? 'accelerated' : sel.bioAgeDelta < 0 ? 'decelerated' : 'matched'} degeneration at current lifestyle settings.
+                  {hasChronologicalAge ? <>{sel.name} behaves like a <b className="text-white">{bioAge}-year-old</b> tissue vs chronological age <b className="text-white">{patient.age}y</b> — {sel.bioAgeDelta > 0 ? 'accelerated' : sel.bioAgeDelta < 0 ? 'decelerated' : 'matched'} degeneration at current lifestyle settings.</> : 'Enter your age under My Health Data to compare this modelled tissue age with chronological age.'}
                 </p>
                 <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-700/60">
                   <div
