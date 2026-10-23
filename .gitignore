@@ -1,6 +1,2 @@
-node_modules/
-dist/
-.DS_Store
-*.local
-.vite/
-preview.log
+*.tar.gz
+*.bundle
