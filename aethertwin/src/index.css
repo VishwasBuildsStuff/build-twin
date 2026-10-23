@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-slate-950 text-slate-200 antialiased;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(34, 211, 238, 0.10), transparent),
+    radial-gradient(ellipse 60% 40% at 90% 110%, rgba(16, 185, 129, 0.07), transparent);
+  background-attachment: fixed;
+}
+
+/* ---------- Glassmorphism cards ---------- */
+.glass {
+  @apply rounded-2xl border border-white/10 bg-slate-900/60 shadow-[0_8px_32px_rgba(2,6,23,0.6)] backdrop-blur-xl;
+}
+.glass-hover {
+  @apply transition-all duration-300 hover:border-cyan-400/40 hover:shadow-[0_0_28px_rgba(34,211,238,0.14)];
+}
+.neon-text {
+  text-shadow: 0 0 14px rgba(34, 211, 238, 0.55);
+}
+.neon-emerald {
+  text-shadow: 0 0 14px rgba(16, 185, 129, 0.55);
+}
+
+/* ---------- Range sliders ---------- */
+input[type='range'].twin-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+input[type='range'].twin-slider:hover {
+  filter: brightness(1.15);
+}
+input[type='range'].twin-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  border: 3px solid var(--thumb-accent, #22d3ee);
+  box-shadow: 0 0 12px var(--thumb-accent, #22d3ee);
+  transition: transform 0.15s;
+}
+input[type='range'].twin-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+input[type='range'].twin-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  border: 3px solid var(--thumb-accent, #22d3ee);
+  box-shadow: 0 0 12px var(--thumb-accent, #22d3ee);
+}
+
+/* ---------- Scrollbars ---------- */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(51, 65, 85, 0.9);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 211, 238, 0.5);
+}
+
+/* ---------- Organ SVG hotspots ---------- */
+.organ-hotspot {
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.organ-hotspot:hover .organ-shape {
+  filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.9));
+}
+.organ-selected .organ-shape {
+  filter: drop-shadow(0 0 14px rgba(16, 185, 129, 0.95));
+}
+
+/* ---------- Recharts tweaks ---------- */
+.recharts-default-tooltip {
+  border-radius: 12px !important;
+}
+.recharts-cartesian-axis-tick-value {
+  font-size: 11px;
+}
+
+/* ---------- Print (Case Report) ---------- */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+  .print-area {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
